@@ -26,5 +26,6 @@
       <enum name="repeat" value="1" />
       <enum name="mirror" value="2" />
     </attr>
+    <attr name="riv_aspect_ratio" format="float"/>
   </declare-styleable>
 </resources>

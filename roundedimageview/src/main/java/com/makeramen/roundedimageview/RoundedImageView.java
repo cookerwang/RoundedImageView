@@ -12,6 +12,8 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
+*
+* modified by kuon, add aspect_ratio for iamgeview
 */
 
 package com.makeramen.roundedimageview;
@@ -80,6 +82,8 @@ public class RoundedImageView extends ImageView {
   private ScaleType mScaleType = ScaleType.FIT_CENTER;
   private Shader.TileMode mTileModeX = DEFAULT_TILE_MODE;
   private Shader.TileMode mTileModeY = DEFAULT_TILE_MODE;
+  private static final float ASPECT_RATIO_DEFAULT_VALUE = -1;
+  private float mAspectRatio = ASPECT_RATIO_DEFAULT_VALUE;
 
   public RoundedImageView(Context context) {
     super(context);
@@ -162,6 +166,7 @@ public class RoundedImageView extends ImageView {
     updateDrawableAttrs();
     updateBackgroundDrawableAttrs(true);
 
+    mAspectRatio = a.getFloat(R.styleable.RoundedImageView_riv_aspect_ratio, ASPECT_RATIO_DEFAULT_VALUE);
     a.recycle();
   }
 
@@ -175,6 +180,17 @@ public class RoundedImageView extends ImageView {
         return Shader.TileMode.MIRROR;
       default:
         return null;
+    }
+  }
+
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    // TODO Auto-generated method stub
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    if( mAspectRatio > 0 ) {
+      int width = getMeasuredWidth();
+      int height = (int)(width * mAspectRatio);
+      setMeasuredDimension(width, height);
     }
   }
 
